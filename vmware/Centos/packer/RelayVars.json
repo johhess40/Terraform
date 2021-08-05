@@ -1,0 +1,24 @@
+{
+    "vsphere-server": "10.89.243.49",
+    "vsphere-user": "johnhes@ACELAB.local",
+    "vsphere-password": "Winter21!",
+    "vsphere-host": "ace-cloud-esx-01.acelab.local",
+
+    "vsphere-datacenter": "ACE-POD-PROD",
+    "vsphere-cluster": "ACE-CLOUD-PROD",
+    "vsphere-network": "CLOUD-POD3",
+    "vsphere-datastore": "acelab_prod_cloud_datastore0",
+    "vsphere-folder": "TBD",
+
+    "vm-name": "SMTP-RELAY",
+    "vm-cpu-num": "4",
+    "vm-mem-size": "8096",
+    "disk_controller_type": "nvme",
+    "vm-disk-size": "40906",
+    "ubuntu-password": "password123",
+    "os_iso_path": "[acelab_prod_cloud_datastore0] ISOs/CentOS-7-x86_64-DVD-2003.iso",
+    "template_folder": "/ace-cloud-esx-01.acelab.local/[acelab_prod_cloud_datastore0] PackerLab",
+    "ssh-password": "password123",
+    "root_pass": "QAZWSXqazwsx1234!@",
+    "ssh-user": "johnhession"
+}

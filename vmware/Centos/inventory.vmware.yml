@@ -1,0 +1,13 @@
+plugin: community.vmware.vmware_vm_inventory
+strict: False
+hostname: 10.89.243.49
+username: johnhes@ACELAB.local
+ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+password: Winter21!
+validate_certs: False
+with_tags: False
+hostnames:
+- config.name
+filters:
+- config.guestId == "centos7_64Guest"
+- guest.ipAddress is defined and guest.ipAddress is match('10.89.246.*')

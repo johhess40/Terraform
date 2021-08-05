@@ -1,0 +1,50 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the name of the data factory to deploy the Linked Service"
+            }
+        },
+        "oracleLinkServName": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the name of the linked service to Oracle itself"
+            }
+        },
+        "connectionString": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the name of the connection string for the Oracle DB"
+            }
+        },
+        "irRefName": {
+            "type": "string",
+            "metadata": {
+                "description": "This is the name of the IR for the Oracle linked service"
+            }
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "name": "[concat(parameters('factoryName'), parameters('oracleLinkServName'))]",
+            "type": "Microsoft.DataFactory/factories/linkedServices",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "annotations": [],
+                "type": "Oracle",
+                "typeProperties": {
+                    "connectionString": "[parameters('connectionString')]"
+                },
+                "connectVia": {
+                    "referenceName": "[parameters('irRefName')]",
+                    "type": "IntegrationRuntimeReference"
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}

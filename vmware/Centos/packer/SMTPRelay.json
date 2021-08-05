@@ -1,0 +1,45 @@
+{
+    "builders": [{
+        "CPUs": "{{user `vm-cpu-num`}}",
+        "RAM": "{{user `vm-mem-size`}}",
+        "RAM_reserve_all": true,
+        "boot_command": [
+            "<esc><wait>",
+            "linux ks=hd:fd0:/ks.cfg<enter>"
+        ],
+        "cluster": "{{user `vsphere-cluster`}}",
+        "communicator": "ssh",
+        "convert_to_template": true,
+        "datacenter": "{{user `vsphere-datacenter`}}",
+        "datastore": "{{user `vsphere-datastore`}}",
+        "iso_paths": "{{user `os_iso_path`}}",
+        "floppy_files": [
+            "{{template_dir}}/ks.cfg"
+        ],
+        "guest_os_type": "centos7_64Guest",
+        "host": "{{user `vsphere-host`}}",
+        "insecure_connection": true,
+        "network_adapters": [{
+            "network": "{{user `vsphere-network`}}",
+            "network_card": "e1000e"
+        }],
+        "password": "{{user `vsphere-password`}}",
+        "ssh_password": "{{user `ssh-password`}}",
+        "ssh_username": "{{user `ssh-user`}}",
+        "storage": [{
+            "disk_size": "{{user `vm-disk-size`}}",
+            "disk_thin_provisioned": true
+        }],
+        "type": "vsphere-iso",
+        "username": "{{user `vsphere-user`}}",
+        "vcenter_server": "{{user `vsphere-server`}}",
+        "vm_name": "{{user `vm-name`}}"
+    }],
+    "provisioners": [{
+        "type": "ansible",
+        "playbook_file": "./smtp_config.yml",
+        "extra_arguments": ["-vvvv"],
+        "ansible_env_vars": ["ANSIBLE_HOST_KEY_CHECKING=False"],
+        "user": "{{user `ssh-user`}}"
+    }]
+}

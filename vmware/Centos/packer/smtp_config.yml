@@ -1,0 +1,178 @@
+---
+- name: Configure linux
+  hosts: all
+  gather_facts: no 
+  vars_files:
+  - "/mnt/c/Users/johhess/Documents/mycode/VMWareTerraform/Packer/Centos/packer/group_vars/packer_vars.yml"
+
+  tasks:
+  - name: Update YUM
+    shell: |
+      yum update -y
+    become: True
+    become_user: root
+
+  - name: Update YUM
+    shell: |
+      yum install dnf -y
+    become: True
+    become_user: root
+
+  - name: Update YUM
+    shell: |
+      yum install python-dnf -y
+    become: True
+    become_user: root
+
+  - name: Install packages on CentOS/RedHat
+    yum:
+      name: "{{ packages_alpha }}"
+    become: True
+    become_user: root
+
+  - name: Install version of pip needed, must be less than 21 for Centos 7
+    easy_install: 
+      name: "{{ packages_easy }}"
+    become: True
+    become_user: root
+
+  - name: Install final packages with pip
+    pip: 
+      name: "{{ packages_pip }}"
+    become: True
+    become_user: root
+
+  - name: Ensure firewalld is started
+    service: 
+      name: firewalld
+      state: started
+    become: True
+    become_user: root
+
+  - name: Start rsyslog if not started already 
+    ansible.builtin.service:
+      name: rsyslog
+      state: started
+    become: True
+    become_user: root
+
+  - name: Start postfix if not started already 
+    ansible.builtin.service:
+      name: postfix
+      state: started
+    become: True
+    become_user: root
+  
+  - name: Copy a new "main.cf" file into place, backing up the original if it differs from the copied version
+    ansible.builtin.copy:
+      src: ./main.cf
+      dest: /etc/postfix/main.cf
+      owner: root
+      group: root
+      mode: '0744'
+      backup: yes
+    become: True
+    become_user: root
+
+  - name: Copy a new "master.cf" file into place, backing up the original if it differs from the copied version
+    ansible.builtin.copy:
+      src: ./master.cf
+      dest: /etc/postfix/master.cf
+      owner: root
+      group: root
+      mode: '0744'
+      backup: yes
+    become: True
+    become_user: root
+
+  - name: Generate an OpenSSL private key 
+    community.crypto.openssl_privatekey:
+      path: /etc/postfix/server.key
+      size: 2048
+    become: True
+    become_user: root
+
+  - name: Generate an OpenSSL Certificate Signing Request with Subject information
+    community.crypto.openssl_csr:
+      path: /etc/postfix/server.csr
+      privatekey_path: /etc/postfix/server.key
+      country_name: US
+      state_or_province_name: Washington
+      locality_name: Seattle
+      organization_name: CDW
+      email_address: johhess@cdw.com
+      common_name: cdw.com
+    become: True
+    become_user: root
+
+  - name: Generate OpenSSL cert for Postfix
+    community.crypto.x509_certificate:
+      path: /etc/postfix/server.crt
+      csr_path: /etc/postfix/server.csr
+      privatekey_path: /etc/postfix/server.key
+      provider: selfsigned
+    become: True
+    become_user: root
+
+  - name: Set up zone for Postfix
+    ansible.posix.firewalld:
+      port: 25/tcp
+      permanent: yes
+      state: enabled
+    become: True
+    become_user: root
+
+  - name: Set up zone for Postfix on 587
+    ansible.posix.firewalld:
+      port: 587/tcp
+      permanent: yes
+      state: enabled
+    become: True
+    become_user: root
+
+  - name: Set up zone for Postfix 0n 25
+    ansible.posix.firewalld:
+      port: 25/tcp
+      zone: trusted
+      permanent: yes
+      state: enabled
+    become: True
+    become_user: root
+
+  - name: Set up zone for Postfix on 587
+    ansible.posix.firewalld:
+      port: 587/tcp
+      zone: trusted
+      permanent: yes
+      state: enabled 
+    become: True
+    become_user: root 
+
+  - name: Set up zone for Postfix
+    ansible.posix.firewalld:
+      source: 10.89.246.0/24
+      zone: trusted
+      permanent: yes
+      state: enabled 
+    become: True
+    become_user: root
+
+  - name: Reload the firewall
+    service:
+     name: "firewalld"
+     state: "restarted"
+     enabled: "yes"
+    become: True
+    become_user: root
+
+  - name: "Restart and Enable Postfix Service"
+    service:
+     name: "postfix"
+     state: "restarted"
+     enabled: "yes"
+    become: True
+    become_user: root
+    
+  
+
+  

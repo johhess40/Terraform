@@ -1,0 +1,22 @@
+---
+- name: Configure linux
+  hosts: all
+  gather_facts: no 
+  vars_files:
+  - "/mnt/c/Users/johhess/Documents/mycode/VMWareTerraform/Packer/Centos/group_vars/vsphere_vars.yml"
+
+  tasks:
+
+  - name: Start postfix if it is not started 
+    ansible.builtin.service:
+      name: postfix
+      state: started
+    become: True
+    become_user: root
+
+  - name: Start rsyslog if not started already 
+    ansible.builtin.service:
+      name: rsyslog
+      state: started
+    become: True
+    become_user: root

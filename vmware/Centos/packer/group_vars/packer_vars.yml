@@ -1,0 +1,23 @@
+hostname: 10.89.243.49
+username: johnhes@ACELAB.local
+password: Winter21!
+su_password: password123
+ansible_user: johnhession
+ansible_ssh_pass: password123
+ansible_become: True
+ansible_become_pass: password123
+ansible_host_key_checking: False
+packages_alpha: 
+    - epel-release
+    - python-setuptools
+    - python36
+    - redhat-rpm-config 
+    - gcc 
+    - libffi-devel 
+    - python-devel 
+    - openssl-devel
+    - firewalld
+packages_easy: "pip==20.3.4"
+packages_pip: 
+    - pyOpenSSL
+    - cryptography
