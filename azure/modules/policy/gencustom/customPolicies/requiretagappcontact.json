@@ -1,7 +1,7 @@
 {
     "name": "require-tag-contact-rgs",
     "properties": {
-        "displayName": "Require CostContact tags on Burlington on Resource Groups",
+        "displayName": "Require CostContact tags on Resource Groups",
         "policyType": "Custom",
         "mode": "All",
         "description": "Denies creation of resource group with no tags",
@@ -13,7 +13,7 @@
                 "type": "string",
                 "metadata": {
                     "displayName": "Tags",
-                    "description": "Tag required on Burlington Resource Groups"
+                    "description": "Tag required on Resource Groups"
                 }
             }
         },

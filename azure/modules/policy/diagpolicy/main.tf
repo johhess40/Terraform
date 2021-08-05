@@ -1,5 +1,5 @@
 /*
-NOTE: This module deploys custom policies for burlington
+NOTE: This module deploys custom policies 
       - These policies may be modified from builtin policies or created from scratch
       - Be mindful of the scope at which these policies are applied
       - 

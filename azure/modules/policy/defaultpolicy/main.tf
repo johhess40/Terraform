@@ -4,7 +4,7 @@ NOTE: This module deploys policies via policy sets.....
     - Custom policies have not yet been incorporated
 */
 
-resource "azurerm_policy_set_definition" "burlpolicyset" {
+resource "azurerm_policy_set_definition" "policyset" {
   for_each              = var.policyDefs
   name                  = each.value["policySetDefName"]
   policy_type           = each.value["policyType"]
@@ -32,7 +32,7 @@ resource "azurerm_policy_set_definition" "burlpolicyset" {
   }
 }
 
-resource "azurerm_policy_assignment" "burlassignment" {
+resource "azurerm_policy_assignment" "assignment" {
   for_each             = var.policyAssignments
   name                 = each.value["assignmentName"]
   scope                = each.value["assignmentScope"]
@@ -49,6 +49,6 @@ resource "azurerm_policy_assignment" "burlassignment" {
   })
 
   depends_on = [
-    azurerm_policy_set_definition.burlpolicyset
+    azurerm_policy_set_definition.policyset
   ]
 }
