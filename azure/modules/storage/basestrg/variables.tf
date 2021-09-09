@@ -12,6 +12,7 @@ variable "stgaccounts" {
 variable "containers" {
   type = map(object({
     name        = string
+    stg_accnt_name      = string
     access_type = string
   }))
 }

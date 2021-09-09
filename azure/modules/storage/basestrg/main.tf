@@ -25,6 +25,6 @@ resource "azurerm_storage_container" "strgcntnrs" {
   //Use variables you can iterate over
   for_each              = var.containers
   name                  = each.value["name"]
-  storage_account_name  = azurerm_storage_account.strg.name
+  storage_account_name  = each.value["stg_accnt_name"]
   container_access_type = each.value["access_type"]
 }
