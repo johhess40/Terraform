@@ -27,4 +27,8 @@ resource "azurerm_storage_container" "strgcntnrs" {
   name                  = each.value["name"]
   storage_account_name  = each.value["stg_accnt_name"]
   container_access_type = each.value["access_type"]
+
+  depends_on = [
+    azurerm_storage_account.strg
+  ]
 }
